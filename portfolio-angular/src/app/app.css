@@ -1,0 +1,53 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff, #ffe5e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.portfolio-card {
+  max-width: 700px;
+  width: 100%;
+  padding: 30px;
+  border-top: 8px solid #d32f2f;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 8px 20px rgba(211, 47, 47, 0.2);
+}
+
+h1 {
+  color: #d32f2f;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+}
+
+.content {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.nome {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+button {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #b71c1c;
+}
