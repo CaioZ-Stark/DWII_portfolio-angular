@@ -1,34 +1,62 @@
-<div class="container">
-  <div class="portfolio-card">
+<mat-toolbar color="primary">
 
-    <h1>{{ title() }}</h1>
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <p class="subtitle">
-      Bem-vindo ao meu portfólio 🚀
-    </p>
+  <span>Meu Portfólio</span>
 
-    <hr>
+  <a mat-button routerLink="/" routerLinkActive="ativo"
+     [routerLinkActiveOptions]="{ exact: true }">
+    Início
+  </a>
 
-    <div class="content">
-      <p>Olá, tudo bem com você?</p>
+  <a mat-button routerLink="/sobre" routerLinkActive="ativo">
+    Sobre
+  </a>
 
-      <p>
-        Meu nome é
-        <span class="nome">{{autor}}</span>.
-      </p>
+  <a mat-button routerLink="/projetos" routerLinkActive="ativo">
+    Projetos
+  </a>
 
-      <p>
-        Sou estudante do IFPR e estou no 3º ano do Técnico em Informática.
-      </p>
+  <a mat-button routerLink="/contat" routerLinkActive="ativo">
+    Contato
+  </a>
 
-      <p>
-        Estou aprendendo a criar aplicações modernas utilizando Angular.
-      </p>
+</mat-toolbar>
 
-      <button mat-raised-button color="primary">Bnt body</button><!-- igual o CSS do body-->
-      <button mat-stroked-button color="accent">Btn Normal</button><!-- igual o CSS padrão-->
-      <button mat-flat-button color="warn">Bnt de erro</button><!-- (ao contrario do CSS padrão)-->
-    </div>
+<mat-drawer-container class="container">
 
-  </div>
-</div>
+  <mat-drawer #drawer class="sidenav" mode="over">
+
+    <mat-nav-list class="nav_lista">
+      <a mat-list-item routerLink="">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+
+      <a mat-list-item routerLink="sobre">
+        <mat-icon>person_search</mat-icon>
+        Sobre
+      </a>
+
+      <a mat-list-item routerLink="projetos">
+        <mat-icon>work</mat-icon>
+        Projetos
+      </a>
+
+      <a mat-list-item routerLink="contat">
+        <mat-icon>mail</mat-icon>
+        Contato
+      </a>
+    </mat-nav-list>
+
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <main style="padding:24px;">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-drawer-content>
+
+</mat-drawer-container>

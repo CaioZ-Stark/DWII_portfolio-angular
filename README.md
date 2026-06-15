@@ -15,9 +15,17 @@ Repositório da disciplina **Desenvolvimento Web II** — 2026
 
 ## 📁 Estrutura do Repositório
 
-| Pasta | Conteúdo |
-|-------|----------|
-| `portfolio-angular`| todas as importações do Angular Cli |
+
+
+| Pasta                                | Conteúdo                                                                       |
+| ------------------------------------ | ------------------------------------------------------------------------------ |
+| `portfolio-angular`                  | Arquivos principais do projeto Angular, incluindo configurações e dependências |
+| `portfolio-angular/src/app`          | Componentes e páginas da aplicação                                             |
+| `portfolio-angular/src/app/home`     | Página inicial do portfólio                                                    |
+| `portfolio-angular/src/app/sobre`    | Página com informações pessoais, acadêmicas e profissionais                    |
+| `portfolio-angular/src/app/projetos` | Página que exibe os projetos cadastrados e integrados ao banco de dados        |
+| `portfolio-angular/src/app/contat`   | Página de contato do portfólio                                                 |
+
 ---
 ## 🔗 Como visualizar
 
