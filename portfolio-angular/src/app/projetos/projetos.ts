@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import {ProjetoService, Projeto} from '../projetos.service';
 @Component({
   selector: 'app-projetos',
-  imports: [MatCardModule],
+  imports: [MatCardModule,MatButtonModule],
   templateUrl: './projetos.html',
   styleUrl: './projetos.css',
 })
-export class Projetos {
-  autor = "Caio Mario Zachesky Junior";
+export class Projetos implements OnInit {
+  private service = inject(ProjetoService);
+  projetos: Projeto[] = [];
+  carregando = true;
+  erro = '';
+
+  ngOnInit() {
+    this.service.listar().subscribe({
+      next: (lista) => {this.projetos = lista; this.carregando= false;},
+      error: () => {this.erro = 'Falha ao corregar os projetos.'; this.carregando = false;},
+    });
+  }
+
 }
