@@ -109,3 +109,11 @@ VALUES
  'DevOps',
  'Sistema de controle de versao distribuido.',
  2005);
+ 
+ CREATE TABLE IF NOT EXISTS contatos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(120) NOT NULL,
+  email VARCHAR(180) NOT NULL,
+  mensagem TEXT NOT NULL,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
