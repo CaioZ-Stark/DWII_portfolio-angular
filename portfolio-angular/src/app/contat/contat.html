@@ -8,13 +8,21 @@
         type="text"
         formControlName="nome"
     >
+    @if (form.get('nome')?.invalid && form.get('nome')?.touched){
+        <p class="erro"> ❌ O campo Nome tem que ter mais de 3 caracteres</p>
+    }
+    
 
     <label for="email">E-mail</label>
     <input
         id="email"
         type="email"
         formControlName="email"
-    >
+    > 
+    @if (form.get('email')?.invalid && form.get('email')?.touched){
+        <p class="erro"> ❌ O campo Email está errado</p>
+    }
+
 
     <label for="mensagem">Mensagem</label>
     <textarea
@@ -22,8 +30,12 @@
         formControlName="mensagem"
         rows="4"
     ></textarea>
+      @if (form.get('mensagem')?.invalid && form.get('mensagem')?.touched){
+        <p class="erro"> ❌ O campo Mensagem tem que ter mais de 10 caracteres</p>
+    }
 
-    <button type="submit" [disabled]="enviando">
+
+    <button type="submit" [disabled]="enviando || form.invalid">
         {{ enviando ? 'Enviando...' : 'Enviar' }}
     </button>
 

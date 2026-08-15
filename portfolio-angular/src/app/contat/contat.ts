@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ContatoService } from '../contat.service';
 
@@ -24,8 +24,11 @@ export class Contat {
     this.sucesso = ''; this.erro = '';
     if (this.form.invalid){
       this.form.markAllAsTouched();
+      const primeiroInvalido = document.querySelector('input.ng-invalid, textarea.ng-invalid') as HTMLElement | null;
+      primeiroInvalido?.focus();
       return;
     }
+   
     this.enviando = true;
     this.service.enviar(this.form.getRawValue()).subscribe({
       next: (resp) =>{
@@ -33,10 +36,18 @@ export class Contat {
         this.form.reset();
         this.enviando = false;
       },
-      error: () => {
-        this.erro = 'Não foi possível enviar. Tente novamente.';
+      error: (err: HttpErrorResponse) => {
+        const erros = err.error?.erros;
+
+        if (Array.isArray(erros)) {
+          this.erro = erros.join(' ');
+        }
+        else {
+           this.erro = 'Não foi possível enviar. Tente novamente.';
+        }
+
         this.enviando = false;
-      },
+      }
     })
   }
 }
