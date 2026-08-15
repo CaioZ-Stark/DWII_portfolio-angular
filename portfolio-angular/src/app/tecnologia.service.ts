@@ -14,7 +14,7 @@ export interface Tecnologia{
 @Injectable({ providedIn: 'root'})
 export class TecnologiaService{
     private http = inject(HttpClient);
-    private url = 'https://improved-space-zebra-pjv6p66q9r57377jv-8000.app.github.dev/api/tecnologias.php';
+    private url = 'https://laughing-barnacle-5g69x99pr6x43j4g-8000.app.github.dev/api/tecnologias.php';
 
     listar(): Observable<Tecnologia[]>{
         return this.http.get<Tecnologia[]>(this.url);
