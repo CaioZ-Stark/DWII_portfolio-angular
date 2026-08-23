@@ -2,12 +2,14 @@ import { Component, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ContatoService } from '../contat.service';
+import { O } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-contat',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './contat.html',
+  styleUrl: './contat.css',
 })
 export class Contat {
   private fb = inject(FormBuilder);
@@ -24,8 +26,15 @@ export class Contat {
     this.sucesso = ''; this.erro = '';
     if (this.form.invalid){
       this.form.markAllAsTouched();
-      const primeiroInvalido = document.querySelector('input.ng-invalid, textarea.ng-invalid') as HTMLElement | null;
-      primeiroInvalido?.focus();
+      const pInvalido = Object.keys(this.form.controls)
+      .find(campo => this.form.get(campo)?.invalid);
+
+      if(pInvalido){
+        setTimeout(() => {
+          document.getElementById(pInvalido)?.focus();
+        })
+      }
+      this.erro = 'Corrija os campos destacados antes de enviar.';
       return;
     }
    

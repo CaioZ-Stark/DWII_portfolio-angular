@@ -5,6 +5,7 @@
     <label for="nome">Nome</label>
     <input
         id="nome"
+        [class.campo-erro]="form.get('nome')?.invalid && form.get('nome')?.touched"
         type="text"
         formControlName="nome"
     >
@@ -16,6 +17,7 @@
     <label for="email">E-mail</label>
     <input
         id="email"
+        [class.campo-erro]="form.get('email')?.invalid && form.get('email')?.touched"
         type="email"
         formControlName="email"
     > 
@@ -27,6 +29,7 @@
     <label for="mensagem">Mensagem</label>
     <textarea
         id="mensagem"
+        [class.campo-erro]="form.get('mensagem')?.invalid && form.get('mensagem')?.touched"
         formControlName="mensagem"
         rows="4"
     ></textarea>

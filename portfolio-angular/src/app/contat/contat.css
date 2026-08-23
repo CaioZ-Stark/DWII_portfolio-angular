@@ -1,4 +1,167 @@
-input.ng-invalid.ng-touched,
-textarea.ng-invalid.ng-touched {
-    border: 2px solid red !important;
+/* =========================
+   PÁGINA DE CONTATO
+   ========================= */
+
+h2 {
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+
+/* Formulário */
+
+form {
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 30px;
+
+  background: #ffffff;
+  border-radius: 15px;
+
+  border-top: 6px solid #d32f2f;
+
+  box-shadow: 0 8px 20px rgba(211, 47, 47, 0.15);
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Labels */
+
+label {
+  color: #333;
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+
+/* Campos */
+
+input,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+
+  padding: 12px;
+
+  font-family: inherit;
+  font-size: 16px;
+
+  color: #333;
+  background-color: #fff;
+
+  border: 2px solid #ddd;
+  border-radius: 8px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+
+/* Campo selecionado */
+
+input:focus,
+textarea:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+}
+
+
+/* Campo inválido */
+
+.campo-erro {
+  border: 2px solid #d32f2f !important;
+  background-color: #fff5f5;
+}
+
+
+/* Mensagem de erro */
+
+.erro {
+  color: #b71c1c;
+
+  background-color: #fff5f5;
+
+  border-left: 4px solid #d32f2f;
+
+  padding: 8px 12px;
+  margin: 6px 0;
+
+  border-radius: 4px;
+
+  font-size: 14px;
+}
+
+
+/* Botão */
+
+form button[type="submit"] {
+  margin-top: 20px;
+
+  padding: 12px 20px;
+
+  background-color: #d32f2f;
+  color: #fff;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+/* Hover */
+
+form button[type="submit"]:hover:not(:disabled) {
+  background-color: #b71c1c;
+}
+
+
+/* Botão desabilitado */
+
+form button[type="submit"]:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+
+/* Mensagem de sucesso */
+
+.ok {
+  max-width: 650px;
+  margin: 20px auto;
+
+  padding: 12px 15px;
+
+  color: #176b2c;
+  background-color: #f0fff4;
+
+  border-left: 4px solid #2e7d32;
+  border-radius: 5px;
+
+  font-weight: bold;
+}
+
+
+/* Responsividade */
+
+@media (max-width: 700px) {
+  form {
+    margin: 15px 10px;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
 }
