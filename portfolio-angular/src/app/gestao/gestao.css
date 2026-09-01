@@ -1,6 +1,256 @@
-.gestao { max-width: 760px; margin: 0 auto; }
-.gestao label { display: block; margin-top: 12px; font-weight: 600; }
-.gestao input, .gestao textarea { width: 100%; padding: 6px; }
-.gestao button { margin-top: 12px; margin-right: 8px; padding: 8px 14px; }
-.linha-projeto { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid #d9d9d9; }
-.erro-campo { color: #b00020; font-size: 0.9rem; margin: 4px 0 0; }
+/* =========================
+   ÁREA DE GESTÃO
+   ========================= */
+
+.gestao {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(211, 47, 47, 0.15);
+    border-top: 6px solid #d32f2f;
+}
+
+/* Títulos */
+
+.gestao h2 {
+    color: #d32f2f;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.gestao h3 {
+    color: #333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ffe5e5;
+    padding-bottom: 8px;
+}
+
+/* =========================
+   FORMULÁRIO
+   ========================= */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+
+label {
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+
+/* Campos */
+
+input,
+textarea,
+select {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-family: inherit;
+
+    background: #ffffff;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+/* Efeito ao clicar */
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+}
+
+/* Textarea */
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* =========================
+   ERROS
+   ========================= */
+
+.erro-campo {
+    color: #d32f2f;
+    background: #fff0f0;
+
+    border-left: 4px solid #d32f2f;
+    padding: 9px 12px;
+
+    border-radius: 5px;
+
+    margin: 6px 0 5px;
+
+    font-size: 14px;
+}
+
+/* =========================
+   BOTÃO PRINCIPAL
+   ========================= */
+
+form button {
+    margin-top: 25px;
+
+    padding: 13px 20px;
+
+    background: #d32f2f;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+form button:hover:not(:disabled) {
+    background: #b71c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(211, 47, 47, 0.25);
+}
+
+/* Botão desativado */
+
+form button:disabled {
+    background: #cccccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* =========================
+   LISTA DE PROJETOS
+   ========================= */
+
+.gestao > h3 {
+    margin-top: 40px;
+}
+
+/* Cada projeto */
+
+.linha-projetos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #fff7f7;
+
+    border: 1px solid #f0cccc;
+    border-left: 5px solid #d32f2f;
+
+    border-radius: 8px;
+
+    transition: box-shadow 0.2s ease,
+                transform 0.2s ease;
+}
+
+.linha-projetos:hover {
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.12);
+    transform: translateX(2px);
+}
+
+/* Nome do projeto */
+
+.linha-projetos span {
+    flex: 1;
+
+    color: #333;
+    font-weight: 500;
+}
+
+/* =========================
+   BOTÕES DA LISTA
+   ========================= */
+
+.linha-projetos button {
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: background 0.2s ease;
+}
+
+/* Botão editar */
+
+.linha-projetos button:first-of-type {
+    background: #d32f2f;
+    color: white;
+}
+
+.linha-projetos button:first-of-type:hover {
+    background: #b71c1c;
+}
+
+/* Botão excluir */
+
+.linha-projetos button:last-of-type {
+    background: #eeeeee;
+    color: #333;
+}
+
+.linha-projetos button:last-of-type:hover {
+    background: #dddddd;
+}
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .gestao {
+        margin: 20px 10px;
+        padding: 20px;
+    }
+
+    .gestao h2 {
+        font-size: 25px;
+    }
+
+    .linha-projetos {
+        flex-wrap: wrap;
+    }
+
+    .linha-projetos span {
+        flex-basis: 100%;
+        margin-bottom: 5px;
+    }
+
+    .linha-projetos button {
+        flex: 1;
+    }
+}

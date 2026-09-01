@@ -10,6 +10,7 @@ export interface Projeto{
     tecnologias: string;
     link_github: string;
     ano: number;
+    status: 'rascunho' | 'publicado';
 }
 
 @Injectable({ providedIn: 'root'})
@@ -20,6 +21,9 @@ export class ProjetoService{
     listar(): Observable<Projeto[]>{
         return this.http.get<Projeto[]>(this.url);
         
+    }
+    listarTodos(): Observable<Projeto[]> {
+        return this.http.get<Projeto[]>(`${this.url}?todos=1`);
     }
     criar(projeto: Projeto): Observable<{ id?: number; mensagem?: string}>{
     return this.http.post<{id?: number; mensagem?: string}>(this.url, projeto);

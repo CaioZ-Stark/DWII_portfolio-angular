@@ -20,9 +20,16 @@
     <label for="ano">Ano</label>
     <input id="ano" type="number" formControlName="ano">
     @if (form.controls.ano.touched && form.controls.ano.invalid){
-        <p class="erro-compo">😱 Informe o ano do projeto (ex.: 2026).</p>
+        <p class="erro-campo">😱 Informe o ano do projeto (ex.: 2026).</p>
     }
-    <button type="submit" [disabled]="salvando">
+    <label for="status">Status do projeto</label>
+
+    <select id="status" formControlName="status">
+        <option value="publicado">Publicado</option>
+        <option value="rascunho">Rascunho</option>
+    </select><br>
+
+    <button type="submit" [disabled]="salvando || form.invalid">
         {{salvando ? 'Salvando...' : (editandoId ? 'Salvar alterações' : 'Adicionar projeto')}}
     </button>
 </form>
@@ -31,15 +38,21 @@
     @if(carregando){
         <p>Carregando projetos...</p>
     }
+    @if (!carregando && projetos.length === 0) {
+    <p class="lista-vazia">
+        Você ainda não cadastrou nenhum projeto.
+    </p>
+}
     @if(erro){
         <p class="erro-campo">😢 {{erro}}</p>
     }
 
     @for (p of projetos; track p.id){
         <div class="linha-projetos">
-            <span>{{ p.nome}} ({{p.ano}})</span>
+           <span>{{ p.nome }} ({{ p.ano }}) - Status: {{ p.status }}</span>
             <button type="button" (click)="editar(p)">Editar</button>
             <button type="button" (click)="excluir(p)">Excluir</button>
         </div>
     }
+    
 </section>

@@ -117,3 +117,5 @@ VALUES
   mensagem TEXT NOT NULL,
   criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+Create table usuarios( id int auto_increment primary key, usuario varchar(120) not null, senha varchar(120) not null);
+insert into usuarios VAlues(null, 'admin', '1234');

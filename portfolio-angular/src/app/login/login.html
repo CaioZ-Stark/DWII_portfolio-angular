@@ -1,0 +1,52 @@
+<section class="login-container">
+
+  <div class="login-card">
+
+    <h2>Login</h2>
+    
+
+    <form [formGroup]="form" (ngSubmit)="entrar()">
+
+      <label for="usuario">Usuário</label>
+      <input
+        id="usuario"
+        type="text"
+        formControlName="usuario"
+        [class.campo-erro]="form.controls.usuario.invalid && form.controls.usuario.touched"
+      >
+
+      @if (form.controls.usuario.invalid && form.controls.usuario.touched) {
+        <p class="erro-campo">❌ Informe o usuário.</p>
+      }
+
+
+      <label for="senha">Senha</label>
+      <input
+        id="senha"
+        type="password"
+        formControlName="senha"
+        [class.campo-erro]="form.controls.senha.invalid && form.controls.senha.touched"
+      >
+
+      @if (form.controls.senha.invalid && form.controls.senha.touched) {
+        <p class="erro-campo">❌ Informe a senha.</p>
+      }
+
+
+      @if (erro) {
+        <p class="erro-campo">❌ {{ erro }}</p>
+      }
+
+
+      <button
+        type="submit"
+        [disabled]="entrando || form.invalid"
+      >
+        {{ entrando ? 'Entrando...' : 'Entrar' }}
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
