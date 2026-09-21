@@ -24,16 +24,39 @@ if($metodo === 'GET'){
 
     $todos = isset($_GET['todos']) && $_GET['todos'] == '1';
 
-        if ($todos === 1) {
-            $sql = "SELECT id, nome, descricao, tecnologias, link_github, ano, status
+    // Consulta de um projeto específico
+    if($id > 0){
+        $stmt = $pdo->prepare(
+            "SELECT id, nome, descricao, tecnologias, link_github, ano, status
+             FROM projetos
+             WHERE id = ?"
+        );
+
+        $stmt->execute([$id]);
+
+        $projeto = $stmt->fetch();
+
+        if(!$projeto){
+            http_response_code(404);
+            echo json_encode(['erro' => 'Projeto nao encontrado']);
+            exit;
+        }
+
+        echo json_encode($projeto);
+        exit;
+    }
+
+    // Consulta todos os projetos
+    if($todos){
+        $sql = "SELECT id, nome, descricao, tecnologias, link_github, ano, status
                 FROM projetos
                 ORDER BY ano DESC, id";
-            }
-            else {
-                $sql = "SELECT id, nome, descricao, tecnologias, link_github, ano, status
-                 FROM projetos
-                 WHERE status = 'publicado'
-                 ORDER BY ano DESC, id";
+    }
+    else{
+        $sql = "SELECT id, nome, descricao, tecnologias, link_github, ano, status
+                FROM projetos
+                WHERE status = 'publicado'
+                ORDER BY ano DESC, id";
     }
 
     $projetos = $pdo->query($sql)->fetchAll();
