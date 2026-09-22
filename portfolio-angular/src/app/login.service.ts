@@ -16,7 +16,7 @@ export class LoginService {
 
   private http = inject(HttpClient);
 
-  private url ='https://laughing-barnacle-5g69x99pr6x43j4g-8000.app.github.dev/api/login.php';
+  private url ='https://laughing-barnacle-5g69x99pr6x43j4g-3000.app.github.dev/api/login';
 
   entrar(dados: { usuario: string; senha: string }): Observable<RespostaLogin> {
     return this.http.post<RespostaLogin>(this.url, dados).pipe(
