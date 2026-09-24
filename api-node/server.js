@@ -41,9 +41,51 @@ const login = [
         senha: '1234'
     }
 ];
+const tecnologias = [
+    {   
+        id:1,
+        nome:'HTML',
+        categoria:'Frontend',
+        descricao:'Linguagem de marcacao para estrutura de paginas.',
+        ano_criacao: 1993,
+    },{
+        id:2,
+        nome:'CSS',
+        categoria:'Frontend',
+        descricao:'Linguagem de estilos para apresentacao visual.',
+        ano_criacao: 1996,},
+        {
+            id:3,
+        nome:'JavaScript',
+        categoria:'Frontend',
+        descricao:'Linguagem de programacao para o navegador.',
+        ano_criacao: 1995,},{
+        id:4,
+        nome:'PHP',
+        categoria:'Backend',
+        descricao:'Linguagem server-side para web dinamica.',
+        ano_criacao: 1994,},
+{
+        id:5,
+        nome:'MariaDB',
+        categoria:'Banco de Dados',
+        descricao:'SGBD relacional open-source.',
+        ano_criacao: 2009,},
+
+        {
+        id:6,
+        nome:'Git',
+        categoria:'DevOps',
+        descricao:'Sistema de controle de versao distribuido.',
+        ano_criacao: 2005
+    }
+];
 
 app.get('/', (req, res) => {
     res.send('API do Portfolio em Node: no ar');
+});
+app.get('/api/tecnologias', (req, res) => {
+    res.json(tecnologias);
 });
 
 app.get('/api/projetos', (req, res) => {
@@ -71,6 +113,8 @@ app.post('/api/login', (req, res) => {
         usuario: ''
     });
 });
+
+
 
 app.listen(PORTA, () => {
     console.log('API no ar em http://localhost:' + PORTA);
