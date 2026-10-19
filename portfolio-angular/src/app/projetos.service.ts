@@ -32,7 +32,7 @@ export class ProjetoService{
         return this.http.put<{ id?: number; mensagem?: string}>(`${this.url}/${id}`, projeto);
     }
     excluir(id: number): Observable<void>{
-        return this.http.delete<void>(`${this.url}/=${id}`);
+        return this.http.delete<void>(`${this.url}/${id}`);
 
     }
 }

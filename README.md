@@ -568,3 +568,18 @@ A API em uso e a de `api-node/`. Os arquivos `api/*php` e `conexao.php` ficam no
 curl -i -X POST http://localhost:3000/api/projetos
 curl -i -X PUT http://localhost:3000/api/projetos/15 -H " Content-Type: application/json" -d '{"nome":"Projeto de teste", "ano":2026}'
 curl -i -X DELETE http://localhost:3000/api/projetos/15 -H " Content-Type: application/json" -d '{"nome":"Projeto de teste (editado)", "ano":2026}'
+
+### Aula 24: a tranca 
+Quem escreve precisa de um token. Antes do primeiro uso, crie a tabela e o dono:
+    sudo mariadb dwii_db < sql/usuario.sql
+    cd api-node
+    npm install
+    node criar-usuario.js dono@portfolio.dev portfolio2026
+
+Login e escrita com o token:
+    curl -i -X POST http://localhost:3000/api/login -H "Content-Type: application/json"-d '{"email":"dono@portfolio.dev","senha":"portfolio2026"}'
+
+    curl -i -X DELETE http://localhost:3000/api/projetos/1 -H "Authorization: Bearer $TOKEN"
+
+    curl -i -X POST http://localhost:3000/api/projetos -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"nome":"Projeto com tranca","ano":2026}'
+    curl -i -X PUT http://localhost:3000/api/projetos/1 -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"nome":"Projeto atualizado","ano":2026}'

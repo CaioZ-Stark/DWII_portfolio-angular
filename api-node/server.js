@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const pool = require('./db');
 const app = express();
 const PORTA = 3000;
@@ -7,15 +9,9 @@ const PORTA = 3000;
 app.use(cors());
 app.use(express.json());
 
+const SEGREDO = 'troque-por-uma-frase-longa-que-so-voce-sabe';
 
 
-const login = [
-    {
-        id: 1,
-        usuario: 'admin',
-        senha: '1234'
-    }
-];
 
 
 app.get('/', (req, res) => {
@@ -31,7 +27,26 @@ app.get('/api/tecnologias', async (req, res) => {
 
     }
 });
-app.post('/api/projetos', async (req, res) => {
+/*
+app.post('/api/tecnologias', async (req, res) => {
+    try{
+        const dados = req.body;
+        console.log(dados);
+        if(!dados || !dados.nome){
+            return res.status(400).json({ erro: 'Informe pelo menos o nome do projeto'});
+        }
+    const sql = 'INSERT INTO tecnologias (nome, categoria, descricao, ano_criacao, status, criado_em) VALUES (?,?,?,?,?,?)';
+    const [resultado] = await pool.execute(sql, [
+        dados.nome, dados.categoria ?? '', dados.descricao ?? '',
+        dados.ano_criacao ?? 0, 'publicado', dados.criado_em ?? new Date().getDate()
+    ]);
+    res.status(201).json({id: resultado.insertId});
+    } catch(erro){
+        res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
+    }
+});*/
+
+app.post('/api/projetos', autenticar, async (req, res) => {
     try{
         const dados = req.body;
         console.log(dados);
@@ -48,7 +63,7 @@ app.post('/api/projetos', async (req, res) => {
         res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
     }
 });
-app.put('/api/projetos/:id', async (req, res) =>{
+app.put('/api/projetos/:id', autenticar, async (req, res) =>{
     try{
         const dados = req.body;
         if(!dados || !dados.nome){
@@ -67,7 +82,7 @@ app.put('/api/projetos/:id', async (req, res) =>{
         res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
     }
 });
-app.delete('/api/projetos/:id', async (req, res) => {
+app.delete('/api/projetos/:id', autenticar, async (req, res) => {
     try{
         const [resultado] = await pool.execute('DELETE FROM projetos WHERE id = ?', [req.params.id]);
         if(resultado.affectedRows === 0){
@@ -100,27 +115,42 @@ app.get('/api/projetos/:id', async (req, res) => {
     }
 });
 
-app.post('/api/login', (req, res) => {
-    const { usuario, senha } = req.body;
-
-    const encontrado = login.find(
-        (item) => item.usuario === usuario && item.senha === senha
-    );
-
-    if (encontrado) {
-        return res.json({
-            sucesso: true,
-            mensagem: 'Login realizado com sucesso',
-            usuario: encontrado.usuario
-        });
+app.post('/api/login', async (req, res) => {
+   try {
+    const dados = req.body;
+    if(!dados || !dados.email || !dados.senha){
+        return res.status(400).json({ erro: 'Informe email e senha'});
     }
+    const [linhas] = await pool.execute('SELECT id, email, senha_hash from usuarios_final where email = ?', [dados.email]);
+    const usuario = linhas[0];
+    if(!usuario){
+        return res.status(401).json({ erro: 'Email ou senha invalidos'});
+    }
+    const confere = await bcrypt.compare(dados.senha, usuario.senha_hash);
+    if (!confere){
+        return res.status(401).json({ erro: 'Email ou senha invalidos'});
+    }
+    const token = jwt.sign({ id: usuario.id, email: usuario.email}, SEGREDO, { expiresIn: '2h'});
+    res.json({ token});
+}catch(erro){
+    res.status(500).json({ erro: 'Falha no servidor: ' + erro.message});
+}
 
-    return res.status(401).json({
-        sucesso: false,
-        mensagem: 'Usuário ou senha inválidos',
-        usuario: ''
-    });
 });
+
+function autenticar(req, res, next){
+    const cabecalho = req.headers.authorization ?? '';
+    const token = cabecalho.replace('Bearer ', '');
+    if(!token){
+        return res.status(401).json({ erro: 'Token ausente' });
+    }
+    try{
+        req.usuario = jwt.verify(token, SEGREDO);
+        next();
+    } catch(erro){
+        return res.status(401).json({ erro: 'Token invalido ou expirado'});
+    }
+}
 
 
 
