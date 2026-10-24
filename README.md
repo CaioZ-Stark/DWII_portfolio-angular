@@ -669,3 +669,13 @@ O que esta API ainda não faz
   um token válido pode acessar as rotas protegidas de escrita.
 - Não possui mecanismo de revogação ou logout de JWT; um token emitido
   continua válido até expirar, salvo se o segredo for alterado
+  
+  ## 📝 Histórico de commits
+
+- `Aula 21: API do Portfólio em Node, GET /api/projetos com cors, Post /api/login`
+- `Aula 22: API em Node lê projetos e catálogo do MariaDB com mysql2`
+- `Tecnologias funcionando com node`
+- `Aula 23: API em Node cria, altera e apaga projetos com POST, PUT e DELETE`
+- `Aula 24: API em Node com login, token JWT e middleware autenticar nas rotas de escrita`
+- `Aula 24: Todo atualizado com todas as obrigações para o conceito A, com tecnologias; projetos e README correto`
+
