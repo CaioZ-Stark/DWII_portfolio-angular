@@ -1,0 +1,87 @@
+/* Portfolio em React - Tema Branco e Vermelho */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+header {
+    background-color: #c62828;
+    color: #ffffff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+    flex: 1;
+}
+
+nav a {
+    color: #ffffff;
+    margin-left: 16px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0b4b4;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(198, 40, 40, 0.1);
+}
+
+.card h3 {
+    margin: 0 0 4px;
+    color: #c62828;
+}
+
+.card .meta {
+    margin: 0 0 8px;
+    color: #666666;
+    font-size: 14px;
+}
+
+.card a {
+    color: #c62828;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card a:hover {
+    color: #8e0000;
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    color: #666666;
+    padding: 24px;
+    font-size: 14px;
+    border-top: 1px solid #eeeeee;
+}
