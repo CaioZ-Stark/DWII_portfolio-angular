@@ -47,10 +47,11 @@ app.post('/api/tecnologias', autenticar, async (req, res) => {
         if (!dados || typeof dados.nome !== 'string' || !dados.nome.trim()) {
             return res.status(400).json({erro: 'Informe o nome da tecnologia.'});
         }
+        const criado_em = new Date()
     const sql = 'INSERT INTO tecnologias (nome, categoria, descricao, ano_criacao, status, criado_em) VALUES (?,?,?,?,?,?)';
     const [resultado] = await pool.execute(sql, [
         dados.nome, dados.categoria ?? '', dados.descricao ?? '',
-        dados.ano_criacao ?? new Date().getFullYear(), 'ativo', dados.criado_em ?? new Date()
+        dados.ano_criacao ?? new Date().getFullYear(), dados.status ?? 'ativo', criado_em
     ]);
     res.status(201).json({id: resultado.insertId, message:"Tecnologia cadastrada com sucesso"});
     } catch(erro){
