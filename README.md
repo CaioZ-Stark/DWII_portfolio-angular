@@ -678,4 +678,4 @@ O que esta API ainda não faz
 - `Aula 23: API em Node cria, altera e apaga projetos com POST, PUT e DELETE`
 - `Aula 24: API em Node com login, token JWT e middleware autenticar nas rotas de escrita`
 - `Aula 24: Todo atualizado com todas as obrigações para o conceito A, com tecnologias; projetos e README correto`
-
+- `Aula 25: B`
