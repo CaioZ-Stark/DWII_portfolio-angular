@@ -670,6 +670,12 @@ O que esta API ainda não faz
 - Não possui mecanismo de revogação ou logout de JWT; um token emitido
   continua válido até expirar, salvo se o segredo for alterado
   
+
+### Aula 26: estado, lista e formulario
+
+Os projetos sairam do `App.jsx` e moram em `src/projetos.js`. A tela os desenha com `map`.
+O formulario de contato(`src/Contato.jsx`) guarda o que a pessoa digita no estado, com `useState`.
+Ele ainda nao envia nada: avisa e limpa os campos. O envio de verdade chega com a API.
   ## 📝 Histórico de commits
 
 - `Aula 21: API do Portfólio em Node, GET /api/projetos com cors, Post /api/login`
