@@ -127,6 +127,9 @@ app.put('/api/projetos/:id', autenticar, async (req, res) =>{
         if(!dados || typeof dados.nome !== 'string' || !dados.nome.trim()){
             return res.status(400).json({ erro: 'Informe pelo menos o nome do projeto'});
         }
+        if (projetos.length === 0) {
+            return res.status(404).json({ erro: 'Projeto nao encontrado' });
+        }
 
         const statusAtual = projetos[0].status;
 
