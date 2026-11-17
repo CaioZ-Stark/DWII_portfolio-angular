@@ -569,25 +569,28 @@ curl -i -X POST http://localhost:3000/api/projetos
 curl -i -X PUT http://localhost:3000/api/projetos/15 -H " Content-Type: application/json" -d '{"nome":"Projeto de teste", "ano":2026}'
 curl -i -X DELETE http://localhost:3000/api/projetos/15 -H " Content-Type: application/json" -d '{"nome":"Projeto de teste (editado)", "ano":2026}'
 
-### Aula 24: a tranca 
-As rotas de escrita exigem um token JWT enviado no cabeçalho
-Authorization: Bearer <token>. O login verifica a senha armazenada
-como hash usando bcryptjs; quando as credenciais são válidas, a API
-gera um token com validade de 1 hora. Escolhi uma hora para limitar
-o período de uso de um token caso ele seja exposto, sem exigir login a
-cada requisição.
+### Aula 24: a tranca
+As rotas de escrita exigem um token JWT no cabeçalho
+Authorization: Bearer <token>. O login confere a senha com o hash
+guardado (bcryptjs) e gera um token válido por 1 hora, tempo curto o
+bastante para limitar o uso de um token exposto sem exigir login a cada
+requisição. O middleware autenticar verifica o token nas rotas protegidas.
 
-O middleware autenticar verifica o token antes de permitir o acesso às
-rotas protegidas. Ele é reutilizado nas rotas, sem duplicar a chamada a
-jwt.verify.
 Proteção do SEGREDO
-O SEGREDO assina e verifica os tokens JWT usados na Aula 24.
-Se for publicado no repositório, outra pessoa poderá obter o segredo e
-tentar forjar tokens.
-O valor fixo no server.js é apenas didático e não deve ser usado em
-produção.
-Em produção, o segredo deve ser fornecido por uma variável de ambiente e
-mantido fora do controle de versão.
+O SEGREDO assina e verifica os tokens. Se for publicado, qualquer pessoa
+pode forjar tokens. O valor fixo no server.js é só didático; em produção
+deve vir de variável de ambiente, fora do controle de versão.
+
+Como rodar do zero
+sudo service mariadb start
+mysql -u root -p < sql/setup.sql
+mysql -u root -p < sql/usuarios.sql
+cd api-node
+npm install
+node criar-usuario.js seu@email.com '<senha>'
+node server.js
+A API sobe em http://localhost:3000. O criar-usuario.js grava só o hash
+da senha na tabela usuarios_final.
 
 Tabela de rotas
 | Rota | Verbo HTTP | Precisa de token? | Comportamento |
@@ -604,71 +607,72 @@ Tabela de rotas
 | `/api/tecnologias` | POST | Sim | Cadastra uma tecnologia. |
 | `/api/tecnologias/:id` | PUT | Sim | Altera uma tecnologia. |
 | `/api/tecnologias/:id` | DELETE | Sim | Exclui uma tecnologia. |
+
 Testes com curl
-Execute os comandos com a API ligada. As respostas abaixo mostram o
-resultado esperado; IDs e tokens podem variar conforme o banco de dados.
+IDs e tokens variam conforme o banco. Use <senha> só no terminal.
 
 1. Login correto
-
-Substitua <senha> pela senha real do usuário dono apenas no terminal.
-O marcador <senha> é intencional no README para não publicar a senha.
 curl -i -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"dono@portfolio.dev","senha":"<senha>"}'
-Resposta esperada: 200 OK, com um token no JSON:
-{"token":"<token-gerado-pela-api>"}
-Copie o token retornado e defina a variável no terminal:
+  -d '{"email":"caiozachekymj@email.com","senha":"<senha>"}'
+Resposta: 200 OK, {"token":"<token-gerado-pela-api>"}
 export TOKEN='<cole-aqui-o-token-retornado>'
-2. Login incorreto
-curl -i -X POST http://localhost:3000/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"dono@portfolio.dev","senha":"senha-incorreta"}'
-Resposta esperada: 401 Unauthorized.
+
+2. Login incorreto (mesmo comando, senha errada)
+Resposta: 401 Unauthorized.
 {"erro":"Email ou senha invalidos, verifique suas credenciais "}
-O login retorna a mesma mensagem para e-mail inexistente e senha
-incorreta para não revelar a terceiros se um endereço de e-mail está
-cadastrado.
+A mensagem é igual para email inexistente e senha errada, para não
+revelar quais emails estão cadastrados.
 
 3. POST sem token
 curl -i -X POST http://localhost:3000/api/projetos \
   -H "Content-Type: application/json" \
   -d '{"nome":"Projeto de teste","ano":2026}'
-Resposta esperada: 401 Unauthorized, porque a rota exige token.
+Resposta: 401 Unauthorized.
 {"erro":"Acesso negado: informe um token de autenticação válido."}
+
 4. POST com token
 curl -i -X POST http://localhost:3000/api/projetos \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"nome":"Projeto com token","ano":2026}'
-Resposta esperada: 201 Created, com o ID gerado:
-{"id":1}
-O ID é ilustrativo; a API retorna o ID real criado no banco.
+Resposta: 201 Created, {"id":20}
 
-5. PUT com token
-
-Troque 1 por um ID de projeto existente no seu banco.
+5. PUT com token (troque 1 por um ID existente)
 curl -i -X PUT http://localhost:3000/api/projetos/1 \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"nome":"Projeto atualizado","ano":2026}'
-Resposta esperada: 200 OK.
-{"mensagem":"Projeto atualizado"}
-6. DELETE sem token
+Resposta: 200 OK, {"mensagem":"Projeto atualizado"}
+
+6. PUT de projeto inexistente (mesmo comando com o ID 999999)
+Resposta: 404 Not Found, {"erro":"Projeto nao encontrado"}
+
+7. DELETE sem token
 curl -i -X DELETE http://localhost:3000/api/projetos/1
-Resposta esperada: 401 Unauthorized.
-{"erro":"Acesso negado: informe um token de autenticação válido."}
-7. GET de todos os projetos sem token
+Resposta: 401 Unauthorized (mesma mensagem do teste 3).
+
+8. GET de todos os projetos sem token
 curl -i http://localhost:3000/api/projetos/todos
-Resposta esperada: 401 Unauthorized.
-{"erro":"Acesso negado: informe um token de autenticação válido."}
-A rota pública GET /api/projetos continua retornando somente os
-projetos publicados; a rota GET /api/projetos/todos exige token e
-inclui também os rascunhos.
+Resposta: 401 Unauthorized (mesma mensagem do teste 3).
+
+9. GET de todos os projetos com token
+curl -i http://localhost:3000/api/projetos/todos \
+  -H "Authorization: Bearer $TOKEN"
+Resposta: 200 OK, com todos os projetos, inclusive rascunhos (ex.: id 6,
+"Jogo da Velha (em construcao)"). A rota pública GET /api/projetos
+retorna só os publicados.
+
+10. DELETE com token (ID do teste 4)
+curl -i -X DELETE http://localhost:3000/api/projetos/20 \
+  -H "Authorization: Bearer $TOKEN"
+Resposta: 204 No Content, sem corpo.
+
 O que esta API ainda não faz
-- Não possui controle de permissões por perfil: qualquer usuário com
-  um token válido pode acessar as rotas protegidas de escrita.
-- Não possui mecanismo de revogação ou logout de JWT; um token emitido
-  continua válido até expirar, salvo se o segredo for alterado
+- Não controla permissões por perfil: qualquer token válido acessa as
+  rotas de escrita.
+- Não revoga tokens nem tem logout: o token vale até expirar, salvo se o
+  segredo for alterado.
   
 
 ### Aula 26: estado, lista e formulario
