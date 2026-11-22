@@ -11,6 +11,11 @@ body {
     color: #333333;
 }
 
+.erro {
+    color: red;
+    font-weight: bold;
+}
+
 header {
     background-color: #c62828;
     color: #ffffff;
@@ -48,21 +53,32 @@ main {
     gap: 16px;
 }
 
-.card {
+/* Cartões dos projetos e catálogo */
+.card,
+.catalogo {
     background-color: #ffffff;
     border: 1px solid #e0b4b4;
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 2px 6px rgba(198, 40, 40, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.card h3 {
-    margin: 0 0 4px;
+.card:hover,
+.catalogo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(198, 40, 40, 0.15);
+}
+
+.card h3,
+.catalogo h3 {
+    margin: 0 0 8px;
     color: #c62828;
 }
 
-.card .meta {
-    margin: 0 0 8px;
+.card .meta,
+.catalogo .meta {
+    margin: 0;
     color: #666666;
     font-size: 14px;
 }
@@ -78,6 +94,65 @@ main {
     text-decoration: underline;
 }
 
+/* Catálogo */
+.catalogo ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.catalogo li {
+    color: #333333;
+    font-size: 15px;
+}
+
+.catalogo li::before {
+    content: "●";
+    color: #c62828;
+    margin-right: 8px;
+}
+
+/* Contato */
+.contato {
+    margin-top: 32px;
+}
+
+label {
+    display: block;
+    margin: 0 0 12px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    padding: 8px;
+    border: 1px solid #d9dee8;
+    border-radius: 8px;
+    font: inherit;
+}
+
+button {
+    background-color: #c62828;
+    color: #ffffff;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font: inherit;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8e0000;
+}
+
+.aviso {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
 footer {
     text-align: center;
     color: #666666;
@@ -85,8 +160,17 @@ footer {
     font-size: 14px;
     border-top: 1px solid #eeeeee;
 }
-.contato { margin-top: 32px; }
-label { display: block; margin: 0 0 12px; font-weight: bold; }
-input, textarea { display: block; width: 100%; margin-top: 4px; padding: 8px;border: 1px solid #d9dee8;border-radius:8px; font:inherit; }
-button { background-color: #36579d; color: #ffffff; border: 0; border-radius: 8px; padding: 10px 20px; font: inherit; cursos: pointer;} 
-.aviso { color: #2e7d32; font-weight: bold; }
+.catalogo {
+    margin-top: 32px;
+}
+
+.catalogo ul {
+    list-style: none;
+    padding: 0;
+}
+
+.catalogo li {
+    margin-bottom: 8px;
+    color: #666666;
+    font-size: 14px;
+}

@@ -680,7 +680,103 @@ O que esta API ainda não faz
 Os projetos sairam do `App.jsx` e moram em `src/projetos.js`. A tela os desenha com `map`.
 O formulario de contato(`src/Contato.jsx`) guarda o que a pessoa digita no estado, com `useState`.
 Ele ainda nao envia nada: avisa e limpa os campos. O envio de verdade chega com a API.
-  ## 📝 Histórico de commits
+
+### Aula 27: os projetos vêm da API
+
+📌 **Descrição**
+
+Nesta aula, o frontend passou a buscar os projetos e o catálogo de tecnologias diretamente da API desenvolvida em Node.js, utilizando `fetch()` para realizar as requisições HTTP.
+
+O endereço da API fica centralizado no arquivo `src/api.js`, facilitando a configuração da comunicação entre o frontend e o backend.
+
+Os dados são carregados dinamicamente e armazenados em estados do React, utilizando `useState`. O `useEffect` é responsável por iniciar as buscas quando o componente é carregado.
+
+🔌 **Consumo da API**
+
+São utilizados dois endpoints:
+
+| Endpoint | Método | Função |
+|---|---|---|
+| `/api/projetos` | GET | Retorna os projetos publicados. |
+| `/api/tecnologias` | GET | Retorna as tecnologias cadastradas. |
+
+As requisições são realizadas utilizando `fetch()`.
+
+📂**Organização do código**
+
+| Arquivo | Responsabilidade |
+|---|---|
+| `src/api.js` | Armazena o endereço da API. |
+| `src/App.jsx` | Controla os estados, realiza as requisições e organiza a tela. |
+| `src/CardProjeto.jsx` | Componente responsável pela apresentação dos projetos. |
+| `src/Catalogo.jsx` | Componente responsável pela apresentação do catálogo de tecnologias. |
+
+🔄 **Carregamento dos dados**
+
+O React utiliza `useState` para armazenar as informações recebidas da API:
+
+- `projetos`: armazena os projetos retornados pela API.
+- `catalogo`: armazena as tecnologias retornadas pela API.
+- `carregando`: controla a exibição do estado de carregamento.
+- `erro`: armazena mensagens de erro durante as requisições.
+
+O `useEffect` executa a função de carregamento uma única vez, quando o componente é montado.
+
+**Promise.all()**
+
+As buscas dos projetos e das tecnologias são iniciadas em conjunto por meio de `Promise.all()`, permitindo que as duas requisições sejam executadas concorrentemente.
+
+Após a conclusão das duas operações, o estado de carregamento é encerrado utilizando `finally`.
+
+⚠️ **Tratamento de erros**
+
+As funções de busca utilizam `try/catch` para tratar possíveis falhas nas requisições.
+
+Também é verificado o status da resposta HTTP por meio de `response.ok`. Caso a API retorne uma resposta de erro, uma exceção é lançada e a mensagem correspondente é armazenada no estado `erro`.
+
+🗄️ **Inicialização do backend**
+
+Para que o frontend consiga receber os dados, o MariaDB e a API em Node precisam estar em execução.
+
+Inicie o MariaDB:
+
+```bash
+sudo service mariadb start
+```
+
+Entre na pasta da API:
+
+```bash
+cd api-node
+```
+
+Inicie o servidor:
+
+```bash
+node server.js
+```
+
+A API ficará disponível na porta `3000`.
+
+🌐 **Testes dos endpoints**
+
+Para verificar se a API está fornecendo os dados corretamente, podem ser utilizados os seguintes comandos:
+
+```bash
+curl -i http://localhost:3000/api/projetos
+```
+
+```bash
+curl -i http://localhost:3000/api/tecnologias
+```
+
+✅ **Resultado esperado**
+
+Com o backend em execução, o frontend busca os dados na API e apresenta os projetos e o catálogo de tecnologias na página do portfólio.
+
+Dessa forma, as informações deixam de depender de listas estáticas no frontend e passam a ser obtidas dinamicamente do banco de dados por meio da API em Node.js.
+
+ ## 📝 Histórico de commits
 
 - `Aula 21: API do Portfólio em Node, GET /api/projetos com cors, Post /api/login`
 - `Aula 22: API em Node lê projetos e catálogo do MariaDB com mysql2`
